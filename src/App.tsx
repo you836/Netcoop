@@ -245,9 +245,10 @@ export default function App() {
     setIsDiagnosing(true);
     setApiError(null);
     setReport(null);
+    const apiBase = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
     try {
       const parsed = JSON.parse(telemetryJson);
-      const res = await fetch("/diagnostics/run", {
+      const res = await fetch(`${apiBase}/diagnostics/run`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(parsed),
@@ -273,8 +274,9 @@ export default function App() {
     setIsDiagnosing(true);
     setApiError(null);
     setReport(null);
+    const apiBase = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
     try {
-      const res = await fetch("/diagnostics/probe-and-diagnose", {
+      const res = await fetch(`${apiBase}/diagnostics/probe-and-diagnose`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ target_host: targetHost.trim(), count: packetCount }),

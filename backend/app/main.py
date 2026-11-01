@@ -1,14 +1,18 @@
+import os
 import sys
 from contextlib import asynccontextmanager
 from pathlib import Path
 
 # Ensure the backend directory is in sys.path so 'app' can always be imported
 backend_dir = Path(__file__).resolve().parent.parent
+project_root = backend_dir.parent
 if str(backend_dir) not in sys.path:
     sys.path.insert(0, str(backend_dir))
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from app.core.database import Base, engine
 from app.models import entities  # noqa: F401 - register SQLAlchemy tables
 from app.api.routes.diagnostics import router as diag_router
@@ -55,6 +59,22 @@ def health_check():
     return {"status": "ok", "service": "netcoop-backend"}
 
 
+# Serve built frontend (dist/) if available so a single Render Web Service can host both
+dist_dir = project_root / "dist"
+if dist_dir.exists() and (dist_dir / "index.html").exists():
+    assets_dir = dist_dir / "assets"
+    if assets_dir.exists():
+        app.mount("/assets", StaticFiles(directory=str(assets_dir)), name="assets")
+
+    @app.get("/{full_path:path}")
+    def serve_spa(full_path: str):
+        candidate = dist_dir / full_path
+        if full_path and candidate.is_file():
+            return FileResponse(str(candidate))
+        return FileResponse(str(dist_dir / "index.html"))
+
+
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("app.main:app", host="127.0.0.1", port=8000, reload=True)
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("app.main:app", host="0.0.0.0", port=port, reload=False)
