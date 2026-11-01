@@ -1,0 +1,104 @@
+{
+  "incident_id": "10000000-0000-4000-8000-000000000005",
+  "run_id": "20000000-0000-4000-8000-000000000005",
+  "performance_telemetry": [
+    {
+      "record_id": "sc5-perf-001",
+      "metric_name": "latency_ms",
+      "value": 240.0,
+      "unit": "ms",
+      "device_id": "srv-dns-dhcp-01",
+      "segment_id": "vlan-services-50",
+      "service_id": "service-dns-dhcp-core",
+      "timestamp": "2026-10-31T14:15:00Z"
+    },
+    {
+      "record_id": "sc5-perf-002",
+      "metric_name": "packet_loss_rate",
+      "value": 6.5,
+      "unit": "%",
+      "device_id": "srv-dns-dhcp-01",
+      "segment_id": "vlan-services-50",
+      "service_id": "service-dns-dhcp-core",
+      "timestamp": "2026-10-31T14:15:00Z"
+    }
+  ],
+  "infrastructure_telemetry": [
+    {
+      "record_id": "sc5-infra-001",
+      "device_id": "srv-dns-dhcp-01",
+      "status": "up",
+      "cpu_utilization": 34.0,
+      "memory_utilization": 51.0,
+      "segment_id": "vlan-services-50",
+      "timestamp": "2026-10-31T14:15:00Z",
+      "interfaces": [
+        {
+          "record_id": "sc5-infra-if-001",
+          "interface_id": "eth0",
+          "status": "up",
+          "in_errors": 0,
+          "out_errors": 0,
+          "in_discards": 0,
+          "out_discards": 0,
+          "egress_queue_drops": 0,
+          "segment_id": "vlan-services-50",
+          "timestamp": "2026-10-31T14:15:00Z"
+        }
+      ]
+    },
+    {
+      "record_id": "sc5-infra-002",
+      "device_id": "sw-dc-leaf-01",
+      "status": "up",
+      "cpu_utilization": 22.0,
+      "memory_utilization": 39.0,
+      "segment_id": "vlan-services-50",
+      "timestamp": "2026-10-31T14:15:00Z",
+      "interfaces": [
+        {
+          "record_id": "sc5-infra-if-002",
+          "interface_id": "Gi0/10",
+          "status": "up",
+          "in_errors": 0,
+          "out_errors": 0,
+          "egress_queue_drops": 0,
+          "segment_id": "vlan-services-50",
+          "timestamp": "2026-10-31T14:15:00Z"
+        }
+      ]
+    }
+  ],
+  "topology": {
+    "devices": [
+      {
+        "device_id": "sw-dc-leaf-01",
+        "device_type": "switch",
+        "segment_ids": ["vlan-services-50"],
+        "record_id": "sc5-dev-001",
+        "timestamp": "2026-10-31T14:15:00Z"
+      },
+      {
+        "device_id": "srv-dns-dhcp-01",
+        "device_type": "server",
+        "segment_ids": ["vlan-services-50"],
+        "record_id": "sc5-dev-002",
+        "timestamp": "2026-10-31T14:15:00Z"
+      }
+    ],
+    "links": [
+      {
+        "link_id": "lnk-leaf-dns",
+        "source_device": "sw-dc-leaf-01",
+        "target_device": "srv-dns-dhcp-01",
+        "source_interface": "Gi0/10",
+        "target_interface": "eth0",
+        "link_type": "ethernet",
+        "status": "up",
+        "evidence_id": "sc5-topo-001",
+        "timestamp": "2026-10-31T14:15:00Z"
+      }
+    ],
+    "affected_segment_ids": ["vlan-services-50"]
+  }
+}

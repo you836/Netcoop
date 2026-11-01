@@ -1,0 +1,161 @@
+{
+  "incident_id": "10000000-0000-4000-8000-000000000002",
+  "run_id": "20000000-0000-4000-8000-000000000002",
+  "performance_telemetry": [
+    {
+      "record_id": "sc2-perf-001",
+      "metric_name": "latency_ms",
+      "value": 195.0,
+      "unit": "ms",
+      "device_id": "sw-acc-bldg1-01",
+      "segment_id": "vlan-104",
+      "timestamp": "2026-10-31T14:00:00Z"
+    },
+    {
+      "record_id": "sc2-perf-002",
+      "metric_name": "packet_loss_rate",
+      "value": 3.4,
+      "unit": "%",
+      "device_id": "sw-acc-bldg1-02",
+      "segment_id": "vlan-104",
+      "timestamp": "2026-10-31T14:00:05Z"
+    },
+    {
+      "record_id": "sc2-perf-003",
+      "metric_name": "bandwidth_utilization",
+      "value": 96.5,
+      "unit": "%",
+      "device_id": "sw-agg-core-01",
+      "interface_id": "TenGig0/1",
+      "segment_id": "vlan-104",
+      "timestamp": "2026-10-31T14:00:10Z"
+    }
+  ],
+  "infrastructure_telemetry": [
+    {
+      "record_id": "sc2-infra-001",
+      "device_id": "sw-agg-core-01",
+      "status": "up",
+      "cpu_utilization": 88.0,
+      "memory_utilization": 62.0,
+      "segment_id": "vlan-104",
+      "timestamp": "2026-10-31T14:00:10Z",
+      "interfaces": [
+        {
+          "record_id": "sc2-infra-if-001",
+          "interface_id": "TenGig0/1",
+          "status": "up",
+          "in_errors": 0,
+          "out_errors": 0,
+          "out_queue_drops_delta": 14820,
+          "elapsed_seconds": 60.0,
+          "segment_id": "vlan-104",
+          "timestamp": "2026-10-31T14:00:10Z"
+        }
+      ]
+    },
+    {
+      "record_id": "sc2-infra-002",
+      "device_id": "sw-acc-bldg1-01",
+      "status": "up",
+      "cpu_utilization": 28.0,
+      "memory_utilization": 41.0,
+      "segment_id": "vlan-104",
+      "timestamp": "2026-10-31T14:00:10Z"
+    },
+    {
+      "record_id": "sc2-infra-003",
+      "device_id": "sw-acc-bldg1-02",
+      "status": "up",
+      "cpu_utilization": 31.0,
+      "memory_utilization": 39.0,
+      "segment_id": "vlan-104",
+      "timestamp": "2026-10-31T14:00:10Z"
+    }
+  ],
+  "topology": {
+    "devices": [
+      {
+        "device_id": "rtr-wan-edge-01",
+        "device_type": "router",
+        "segment_ids": ["vlan-100"],
+        "record_id": "sc2-dev-001",
+        "timestamp": "2026-10-31T14:00:00Z"
+      },
+      {
+        "device_id": "sw-agg-core-01",
+        "device_type": "aggregation_switch",
+        "segment_ids": ["vlan-100", "vlan-104"],
+        "record_id": "sc2-dev-002",
+        "timestamp": "2026-10-31T14:00:00Z"
+      },
+      {
+        "device_id": "sw-agg-core-02",
+        "device_type": "aggregation_switch",
+        "segment_ids": ["vlan-100", "vlan-104"],
+        "record_id": "sc2-dev-003",
+        "timestamp": "2026-10-31T14:00:00Z"
+      },
+      {
+        "device_id": "sw-acc-bldg1-01",
+        "device_type": "access_switch",
+        "segment_ids": ["vlan-104"],
+        "record_id": "sc2-dev-004",
+        "timestamp": "2026-10-31T14:00:00Z"
+      },
+      {
+        "device_id": "sw-acc-bldg1-02",
+        "device_type": "access_switch",
+        "segment_ids": ["vlan-104"],
+        "record_id": "sc2-dev-005",
+        "timestamp": "2026-10-31T14:00:00Z"
+      }
+    ],
+    "links": [
+      {
+        "link_id": "lnk-wan-agg1",
+        "source_device": "rtr-wan-edge-01",
+        "target_device": "sw-agg-core-01",
+        "source_interface": "Te0/0/0",
+        "target_interface": "TenGig0/1",
+        "link_type": "trunk",
+        "status": "up",
+        "evidence_id": "sc2-topo-001",
+        "timestamp": "2026-10-31T14:00:00Z"
+      },
+      {
+        "link_id": "lnk-agg1-acc1",
+        "source_device": "sw-agg-core-01",
+        "target_device": "sw-acc-bldg1-01",
+        "source_interface": "Gi0/1",
+        "target_interface": "Gi0/24",
+        "link_type": "trunk",
+        "status": "up",
+        "evidence_id": "sc2-topo-002",
+        "timestamp": "2026-10-31T14:00:00Z"
+      },
+      {
+        "link_id": "lnk-agg1-acc2",
+        "source_device": "sw-agg-core-01",
+        "target_device": "sw-acc-bldg1-02",
+        "source_interface": "Gi0/2",
+        "target_interface": "Gi0/24",
+        "link_type": "trunk",
+        "status": "up",
+        "evidence_id": "sc2-topo-003",
+        "timestamp": "2026-10-31T14:00:00Z"
+      },
+      {
+        "link_id": "lnk-agg2-acc1-lldp",
+        "source_device": "sw-agg-core-02",
+        "target_device": "sw-acc-bldg1-01",
+        "source_interface": "Gi0/1",
+        "target_interface": "Gi0/25",
+        "link_type": "lldp",
+        "evidence_id": "sc2-topo-004",
+        "timestamp": "2026-10-31T14:00:00Z"
+      }
+    ],
+    "affected_device_ids": ["sw-agg-core-01", "sw-acc-bldg1-01", "sw-acc-bldg1-02"]
+  }
+}

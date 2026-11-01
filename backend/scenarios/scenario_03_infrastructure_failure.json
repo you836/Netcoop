@@ -1,0 +1,122 @@
+{
+  "incident_id": "10000000-0000-4000-8000-000000000003",
+  "run_id": "20000000-0000-4000-8000-000000000003",
+  "performance_telemetry": [
+    {
+      "record_id": "sc3-perf-001",
+      "metric_name": "packet_loss_rate",
+      "value": 100.0,
+      "unit": "%",
+      "device_id": "sw-dist-bldg2-01",
+      "segment_id": "vlan-210",
+      "timestamp": "2026-10-31T14:05:00Z"
+    }
+  ],
+  "infrastructure_telemetry": [
+    {
+      "record_id": "sc3-infra-001",
+      "device_id": "sw-dist-bldg2-01",
+      "status": "unreachable",
+      "segment_id": "vlan-210",
+      "timestamp": "2026-10-31T14:05:00Z"
+    },
+    {
+      "record_id": "sc3-infra-002",
+      "device_id": "rtr-core-01",
+      "status": "up",
+      "cpu_utilization": 30.0,
+      "memory_utilization": 45.0,
+      "segment_id": "vlan-200",
+      "timestamp": "2026-10-31T14:05:00Z",
+      "interfaces": [
+        {
+          "record_id": "sc3-infra-if-001",
+          "interface_id": "Gi0/2",
+          "status": "down",
+          "in_errors": 420,
+          "prev_in_errors": 100,
+          "elapsed_seconds": 60.0,
+          "segment_id": "vlan-210",
+          "timestamp": "2026-10-31T14:05:00Z"
+        }
+      ]
+    },
+    {
+      "record_id": "sc3-infra-003",
+      "device_id": "sw-unrelated-300",
+      "status": "up",
+      "cpu_utilization": 19.0,
+      "memory_utilization": 32.0,
+      "segment_id": "vlan-300",
+      "timestamp": "2026-10-31T14:05:00Z"
+    }
+  ],
+  "topology": {
+    "devices": [
+      {
+        "device_id": "rtr-core-01",
+        "device_type": "router",
+        "segment_ids": ["vlan-200"],
+        "record_id": "sc3-dev-001",
+        "timestamp": "2026-10-31T14:05:00Z"
+      },
+      {
+        "device_id": "sw-dist-bldg2-01",
+        "device_type": "distribution_switch",
+        "segment_ids": ["vlan-200", "vlan-210"],
+        "record_id": "sc3-dev-002",
+        "timestamp": "2026-10-31T14:05:00Z"
+      },
+      {
+        "device_id": "sw-acc-bldg2-01",
+        "device_type": "access_switch",
+        "segment_ids": ["vlan-210"],
+        "record_id": "sc3-dev-003",
+        "timestamp": "2026-10-31T14:05:00Z"
+      },
+      {
+        "device_id": "sw-unrelated-300",
+        "device_type": "access_switch",
+        "segment_ids": ["vlan-300"],
+        "record_id": "sc3-dev-004",
+        "timestamp": "2026-10-31T14:05:00Z"
+      }
+    ],
+    "links": [
+      {
+        "link_id": "lnk-core-dist2",
+        "source_device": "rtr-core-01",
+        "target_device": "sw-dist-bldg2-01",
+        "source_interface": "Gi0/2",
+        "target_interface": "Te0/1",
+        "link_type": "ethernet",
+        "status": "down",
+        "evidence_id": "sc3-topo-001",
+        "timestamp": "2026-10-31T14:05:00Z"
+      },
+      {
+        "link_id": "lnk-dist2-acc2",
+        "source_device": "sw-dist-bldg2-01",
+        "target_device": "sw-acc-bldg2-01",
+        "source_interface": "Gi0/1",
+        "target_interface": "Gi0/24",
+        "link_type": "trunk",
+        "status": "up",
+        "evidence_id": "sc3-topo-002",
+        "timestamp": "2026-10-31T14:05:00Z"
+      },
+      {
+        "link_id": "lnk-core-unrel300",
+        "source_device": "rtr-core-01",
+        "target_device": "sw-unrelated-300",
+        "source_interface": "Gi0/3",
+        "target_interface": "Gi0/24",
+        "link_type": "ethernet",
+        "status": "up",
+        "evidence_id": "sc3-topo-003",
+        "timestamp": "2026-10-31T14:05:00Z"
+      }
+    ],
+    "affected_device_ids": ["sw-dist-bldg2-01"]
+  }
+}

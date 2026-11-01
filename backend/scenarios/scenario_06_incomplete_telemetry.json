@@ -1,0 +1,51 @@
+{
+  "incident_id": "10000000-0000-4000-8000-000000000006",
+  "run_id": "20000000-0000-4000-8000-000000000006",
+  "performance_telemetry": [
+    {
+      "record_id": "sc6-perf-valid-001",
+      "metric_name": "latency_ms",
+      "value": 175.0,
+      "unit": "ms",
+      "device_id": "rtr-branch-04",
+      "segment_id": "vlan-branch-04",
+      "timestamp": "2026-10-31T14:20:00Z"
+    },
+    {
+      "record_id": "sc6-perf-malformed-002",
+      "metric_name": "jitter_ms",
+      "value": -12.0,
+      "unit": "ms",
+      "device_id": "rtr-branch-04",
+      "segment_id": "vlan-branch-04",
+      "timestamp": "2026-10-31T14:20:00Z"
+    }
+  ],
+  "infrastructure_telemetry": [
+    {
+      "record_id": "sc6-infra-stale-001",
+      "device_id": "rtr-branch-04",
+      "cpu_utilization": 89.0,
+      "segment_id": "vlan-branch-04",
+      "timestamp": "2026-10-31T12:00:00Z"
+    },
+    {
+      "record_id": "sc6-infra-malformed-002",
+      "cpu_utilization": 55.0,
+      "timestamp": "2026-10-31T14:20:00Z"
+    }
+  ],
+  "topology": {
+    "devices": [
+      {
+        "device_id": "rtr-branch-04",
+        "device_type": "router",
+        "segment_ids": ["vlan-branch-04"],
+        "record_id": "sc6-dev-001",
+        "timestamp": "2026-10-31T14:20:00Z"
+      }
+    ],
+    "links": [],
+    "affected_device_ids": ["rtr-branch-04", "sw-missing-from-topology-99"]
+  }
+}

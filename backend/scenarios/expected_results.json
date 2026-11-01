@@ -1,0 +1,291 @@
+{
+  "scenarios": {
+    "scenario_01_healthy_network": {
+      "file": "scenario_01_healthy_network.json",
+      "incident_id": "10000000-0000-4000-8000-000000000001",
+      "run_id": "20000000-0000-4000-8000-000000000001",
+      "description": "Healthy campus network baseline with normal RTT, zero packet loss, low jitter, normal CPU/memory utilization, zero interface error/drop counters, and a fully connected 3-tier topology.",
+      "expected_execution_statuses": ["success"],
+      "expected_diagnosis_statuses": ["inconclusive"],
+      "expected_root_cause_count_max": 0,
+      "acceptable_primary_root_cause_codes": [],
+      "prohibited_root_cause_codes": [
+        "PROBABLE_CONGESTION_OR_RESOURCE_CONTENTION",
+        "PROBABLE_INTERFACE_OR_LINK_FAULT",
+        "PROBABLE_DEVICE_OUTAGE",
+        "PROBABLE_DEVICE_RESOURCE_EXHAUSTION",
+        "LOCALIZED_PERFORMANCE_DEGRADATION",
+        "SHARED_SEGMENT_DEGRADATION",
+        "SHARED_SEGMENT_INFRASTRUCTURE_DEGRADATION"
+      ],
+      "expected_affected_devices_any": [],
+      "expected_affected_segments_any": [],
+      "prohibited_root_cause_devices": [
+        "rtr-core-01",
+        "sw-agg-01",
+        "sw-acc-01"
+      ],
+      "prohibited_root_cause_segments": [
+        "vlan-10",
+        "vlan-20"
+      ],
+      "required_stage_a_metric_names": [],
+      "required_limitation_keywords_any": [
+        "Available telemetry does not establish a single conclusive root cause",
+        "no correlated fault hypotheses",
+        "inconclusive"
+      ],
+      "expected_recommendation_count_max": 0,
+      "prohibited_recommendation_substrings": []
+    },
+    "scenario_02_network_congestion": {
+      "file": "scenario_02_network_congestion.json",
+      "incident_id": "10000000-0000-4000-8000-000000000002",
+      "run_id": "20000000-0000-4000-8000-000000000002",
+      "description": "Shared aggregation switch congestion: elevated latency and packet loss across two downstream access switches on vlan-104, high egress queue drops and elevated CPU on shared switch sw-agg-core-01, and an unverified LLDP backup link via sw-agg-core-02.",
+      "expected_execution_statuses": ["success"],
+      "expected_diagnosis_statuses": ["identified"],
+      "expected_root_cause_count_min": 1,
+      "acceptable_primary_root_cause_codes": [
+        "PROBABLE_CONGESTION_OR_RESOURCE_CONTENTION"
+      ],
+      "prohibited_root_cause_codes": [
+        "PROBABLE_DEVICE_OUTAGE"
+      ],
+      "expected_affected_devices_any": [
+        "sw-agg-core-01",
+        "sw-acc-bldg1-01",
+        "sw-acc-bldg1-02"
+      ],
+      "expected_affected_segments_any": [
+        "vlan-104"
+      ],
+      "prohibited_root_cause_devices": [],
+      "prohibited_root_cause_segments": [],
+      "required_stage_a_metric_names": [
+        "latency_ms",
+        "packet_loss_pct",
+        "bandwidth_utilization_pct",
+        "cpu_utilization",
+        "out_queue_drops_delta"
+      ],
+      "required_limitation_keywords_any": [
+        "Physical adjacency does not prove active forwarding",
+        "STP state",
+        "forwarding"
+      ],
+      "expected_recommendation_count_min": 1,
+      "required_recommendation_substrings_any": [
+        "do not shift",
+        "forwarding",
+        "queue",
+        "QoS"
+      ],
+      "prohibited_recommendation_substrings": [
+        "immediately shift all traffic without checking",
+        "automatically failover now"
+      ]
+    },
+    "scenario_03_infrastructure_failure": {
+      "file": "scenario_03_infrastructure_failure.json",
+      "incident_id": "10000000-0000-4000-8000-000000000003",
+      "run_id": "20000000-0000-4000-8000-000000000003",
+      "description": "Distribution switch outage and uplink interface fault: sw-dist-bldg2-01 is unreachable/down with high interface errors on its upstream router port, isolating downstream access switch sw-acc-bldg2-01 on vlan-210 while leaving unrelated vlan-300 untouched.",
+      "expected_execution_statuses": ["success"],
+      "expected_diagnosis_statuses": ["identified"],
+      "expected_root_cause_count_min": 1,
+      "acceptable_primary_root_cause_codes": [
+        "PROBABLE_DEVICE_OUTAGE",
+        "PROBABLE_INTERFACE_OR_LINK_FAULT"
+      ],
+      "prohibited_root_cause_codes": [],
+      "expected_affected_devices_any": [
+        "sw-dist-bldg2-01",
+        "rtr-core-01",
+        "sw-acc-bldg2-01"
+      ],
+      "expected_affected_segments_any": [
+        "vlan-210",
+        "vlan-200"
+      ],
+      "prohibited_root_cause_devices": [
+        "sw-unrelated-300"
+      ],
+      "prohibited_root_cause_segments": [
+        "vlan-300"
+      ],
+      "required_stage_a_metric_names": [
+        "packet_loss_pct",
+        "device_operational_status",
+        "interface_operational_status",
+        "in_errors_delta"
+      ],
+      "required_limitation_keywords_any": [
+        "competing",
+        "hypothesis",
+        "telemetry",
+        "single-homed",
+        "physical adjacency"
+      ],
+      "expected_recommendation_count_min": 1,
+      "required_recommendation_substrings_any": [
+        "Verify",
+        "Inspect",
+        "transceiver",
+        "power",
+        "reachability"
+      ],
+      "prohibited_recommendation_substrings": []
+    },
+    "scenario_04_weak_wifi": {
+      "file": "scenario_04_weak_wifi.json",
+      "incident_id": "10000000-0000-4000-8000-000000000004",
+      "run_id": "20000000-0000-4000-8000-000000000004",
+      "description": "Localized wireless performance degradation at access point ap-floor2-01 on segment wlan-corp-floor2. Latency, jitter, and packet loss are elevated on the wireless segment while the AP's CPU, memory, and wired uplink port to sw-poe-floor2-01 are completely healthy. Because RF telemetry (RSSI, SNR, channel utilization, retry rate) is not present in the protocol, the diagnosis remains inconclusive/partial with explicit limitations.",
+      "expected_execution_statuses": ["success"],
+      "expected_diagnosis_statuses": ["inconclusive", "partial_hypothesis"],
+      "acceptable_primary_root_cause_codes": [],
+      "prohibited_root_cause_codes": [
+        "PROBABLE_DEVICE_OUTAGE",
+        "PROBABLE_INTERFACE_OR_LINK_FAULT",
+        "PROBABLE_CONGESTION_OR_RESOURCE_CONTENTION",
+        "PROBABLE_DEVICE_RESOURCE_EXHAUSTION"
+      ],
+      "expected_affected_devices_any": [
+        "ap-floor2-01"
+      ],
+      "expected_affected_segments_any": [
+        "wlan-corp-floor2"
+      ],
+      "prohibited_root_cause_devices": [
+        "sw-poe-floor2-01"
+      ],
+      "prohibited_root_cause_segments": [
+        "vlan-20"
+      ],
+      "required_stage_a_metric_names": [
+        "latency_ms",
+        "jitter_ms",
+        "packet_loss_pct"
+      ],
+      "required_limitation_keywords_any": [
+        "physical adjacency does not by itself prove active forwarding state or root cause",
+        "Segment scope reflects explicit segment_ids",
+        "insufficient"
+      ],
+      "expected_recommendation_count_min": 1,
+      "required_recommendation_substrings_any": [
+        "Verify",
+        "Confirm",
+        "forwarding"
+      ],
+      "required_recommendation_substrings_all": [
+        "RSSI",
+        "SNR",
+        "channel utilization",
+        "retry"
+      ],
+      "prohibited_recommendation_substrings": [
+        "Confirmed RF interference",
+        "Confirmed low SNR"
+      ]
+    },
+    "scenario_05_dns_dhcp_failure": {
+      "file": "scenario_05_dns_dhcp_failure.json",
+      "incident_id": "10000000-0000-4000-8000-000000000005",
+      "run_id": "20000000-0000-4000-8000-000000000005",
+      "description": "Service-scoped degradation targeting campus DNS/DHCP services (service_id='service-dns-dhcp-core') while all underlying routers, switches, servers, and physical links report healthy CPU, memory, interface counters, and 'up' operational status. Must not misdiagnose a physical link or switch hardware failure, and must preserve uncertainty regarding application-level DNS/DHCP state.",
+      "expected_execution_statuses": ["success"],
+      "expected_diagnosis_statuses": ["inconclusive", "partial_hypothesis"],
+      "acceptable_primary_root_cause_codes": [],
+      "prohibited_root_cause_codes": [
+        "PROBABLE_DEVICE_OUTAGE",
+        "PROBABLE_INTERFACE_OR_LINK_FAULT",
+        "PROBABLE_CONGESTION_OR_RESOURCE_CONTENTION",
+        "PROBABLE_DEVICE_RESOURCE_EXHAUSTION"
+      ],
+      "expected_affected_devices_any": [
+        "srv-dns-dhcp-01"
+      ],
+      "expected_affected_segments_any": [
+        "vlan-services-50"
+      ],
+      "prohibited_root_cause_devices": [
+        "sw-dc-leaf-01"
+      ],
+      "prohibited_root_cause_segments": [],
+      "required_stage_a_metric_names": [
+        "latency_ms",
+        "packet_loss_pct"
+      ],
+      "required_limitation_keywords_any": [
+        "Segment scope reflects explicit segment_ids",
+        "VLAN trunking state is not assumed",
+        "insufficient"
+      ],
+      "expected_recommendation_count_min": 1,
+      "required_recommendation_substrings_any": [
+        "Verify",
+        "Confirm",
+        "forwarding"
+      ],
+      "required_recommendation_substrings_all": [
+        "query failures",
+        "response codes",
+        "DHCP pool utilization",
+        "acknowledgement timeouts"
+      ],
+      "prohibited_recommendation_substrings": [
+        "Replace physical switch sw-dc-leaf-01",
+        "Confirmed DHCP scope exhaustion"
+      ]
+    },
+    "scenario_06_incomplete_telemetry": {
+      "file": "scenario_06_incomplete_telemetry.json",
+      "incident_id": "10000000-0000-4000-8000-000000000006",
+      "run_id": "20000000-0000-4000-8000-000000000006",
+      "description": "Incomplete, malformed, and temporally skewed telemetry: includes valid high latency on rtr-branch-04, a malformed negative-value performance record, a device record with high CPU but a stale timestamp 2 hours 20 minutes (8400s) earlier and a second malformed device record missing device_id, and an incomplete topology with zero interconnecting links.",
+      "expected_execution_statuses": ["partial"],
+      "expected_diagnosis_statuses": ["partial_hypothesis", "inconclusive"],
+      "expected_root_cause_count_min": 1,
+      "acceptable_primary_root_cause_codes": [
+        "LOCALIZED_PERFORMANCE_DEGRADATION"
+      ],
+      "prohibited_root_cause_codes": [
+        "PROBABLE_DEVICE_OUTAGE",
+        "PROBABLE_DEVICE_RESOURCE_EXHAUSTION"
+      ],
+      "expected_affected_devices_any": [
+        "rtr-branch-04"
+      ],
+      "expected_affected_segments_any": [
+        "vlan-branch-04"
+      ],
+      "prohibited_root_cause_devices": [
+        "sw-missing-from-topology-99"
+      ],
+      "prohibited_root_cause_segments": [],
+      "required_stage_a_metric_names": [
+        "latency_ms",
+        "cpu_utilization"
+      ],
+      "required_limitation_keywords_any": [
+        "weakening temporal correlation certainty",
+        "PARTIAL status",
+        "timestamps across findings differ",
+        "Stale infrastructure telemetry"
+      ],
+      "expected_recommendation_count_min": 1,
+      "required_recommendation_substrings_any": [
+        "Collect",
+        "Inspect",
+        "Verify"
+      ],
+      "required_recommendation_substrings_all": [
+        "fresh",
+        "CPU"
+      ],
+      "prohibited_recommendation_substrings": []
+    }
+  }
+}
