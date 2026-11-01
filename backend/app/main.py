@@ -60,11 +60,16 @@ def health_check():
 
 
 # Serve built frontend (dist/) if available so a single Render Web Service can host both
-dist_dir = project_root / "dist"
+dist_dir = backend_dir / "dist" if (backend_dir / "dist" / "index.html").exists() else project_root / "dist"
 if dist_dir.exists() and (dist_dir / "index.html").exists():
+    print(f"[FRONTEND] Serving static dashboard from: {dist_dir}")
     assets_dir = dist_dir / "assets"
     if assets_dir.exists():
         app.mount("/assets", StaticFiles(directory=str(assets_dir)), name="assets")
+
+    @app.get("/")
+    def serve_root():
+        return FileResponse(str(dist_dir / "index.html"))
 
     @app.get("/{full_path:path}")
     def serve_spa(full_path: str):
@@ -72,6 +77,8 @@ if dist_dir.exists() and (dist_dir / "index.html").exists():
         if full_path and candidate.is_file():
             return FileResponse(str(candidate))
         return FileResponse(str(dist_dir / "index.html"))
+else:
+    print(f"[FRONTEND WARNING] No dist/index.html found in {backend_dir / 'dist'} or {project_root / 'dist'}")
 
 
 if __name__ == "__main__":
